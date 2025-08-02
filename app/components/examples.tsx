@@ -6,7 +6,8 @@ import { useInView } from 'react-intersection-observer'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 iimport { ExternalLink, Star } from 'lucide-react'
-import Link from 'next/link'
+iimport Link from 'next/link'
+// trigger buildk
 
 export default function Examples() {
   const [ref, inView] = useInView({
