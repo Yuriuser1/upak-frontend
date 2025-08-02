@@ -5,7 +5,8 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import { ExternalLink, Star } from 'lucide-react'
+iimport { ExternalLink, Star } from 'lucide-react'
+import Link from 'next/link'
 
 export default function Examples() {
   const [ref, inView] = useInView({
@@ -213,10 +214,12 @@ export default function Examples() {
           <p className="text-gray-300 mb-6">
             Готовы получить такие же результаты для своих товаров?
           </p>
-          <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-200 transform hover:scale-105">
-            <ExternalLink className="w-5 h-5 mr-2" />
-            Создать карточку
-          </Button>
+  <Link href="/create-card">
+  <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+    <ExternalLink className="w-5 h-5 mr-2" />
+        Создать карточкучку
+  </Button>
+</Link>
         </motion.div>
       </div>
     </section>
