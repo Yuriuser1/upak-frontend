@@ -8,6 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    # По умолчанию все команды run выполняются в каталоге app
     defaults:
       run:
         working-directory: app
@@ -20,15 +21,21 @@ jobs:
         with:
           node-version: 18
 
+      # Установка зависимостей с разрешением конфликтов peer‑dependencies
       - name: Install dependencies
-        run: npm   install --no-fund --legacy-peer-deps
+        run: npm install --no-fund --legacy-peer-deps
+
+      # Сборка Next.js‑проекта
+      - name: Build project
         run: npm run build
 
+      # Создаём архив с результатом сборки
       - name: Create deployment archive
         run: |
           mkdir -p deploy
           tar -czf deploy/app.tgz .next public next.config.js package.json package-lock.json
 
+      # Загружаем архив на сервер Reg.ru по SFTP
       - name: Upload to Reg.ru via SFTP
         uses: appleboy/scp-action@master
         with:
@@ -39,6 +46,7 @@ jobs:
           source: app/deploy/app.tgz
           target: /var/www/u3175586/data/www/upak.space/app.tgz
 
+      # Разархивируем архив на сервере
       - name: Extract archive on remote
         uses: appleboy/ssh-action@master
         with:
