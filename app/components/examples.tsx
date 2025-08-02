@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 iimport { ExternalLink, Star } from 'lucide-react'
 iimport Link from 'next/link'
-// trigger buildk
+// trigger build
 
 export default function Examples() {
   const [ref, inView] = useInView({
