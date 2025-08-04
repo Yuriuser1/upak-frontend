@@ -1,13 +1,11 @@
-
 "use client"
 
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-iimport { ExternalLink, Star } from 'lucide-react'
-iimport Link from 'next/link'
-// trigger build
+import { ExternalLink, Star } from 'lucide-react'
+import Link from 'next/link'
 
 export default function Examples() {
   const [ref, inView] = useInView({
@@ -41,7 +39,8 @@ export default function Examples() {
       price: "45,990₽",
       rating: 4.8,
       reviews: 1247,
-      image: "https://www.apple.com/newsroom/images/2023/09/apple-introduces-the-advanced-new-apple-watch-series-9/article/Apple-Watch-S9-graphite-stainless-steel-FineWoven-Magenetic-Link-green-230912_inline.jpg.large_2x.jpg",
+      image:
+        "https://www.apple.com/newsroom/images/2023/09/apple-introduces-the-advanced-new-apple-watch-series-9/article/Apple-Watch-S9-graphite-stainless-steel-FineWoven-Magenetic-Link-green-230912_inline.jpg.large_2x.jpg",
       features: ["Датчик кислорода", "GPS + Cellular", "Защита от воды", "45mm корпус"],
       results: {
         views: "+340%",
@@ -83,7 +82,8 @@ export default function Examples() {
       price: "52,990₽",
       rating: 4.6,
       reviews: 634,
-      image: "https://cdn.www.kitchenshop.eu/images/thumbs/0187273_espressor-automat-1450w-dinamica-plus-titanium-black-delonghi.jpeg",
+      image:
+        "https://cdn.www.kitchenshop.eu/images/thumbs/0187273_espressor-automat-1450w-dinamica-plus-titanium-black-delonghi.jpeg",
       features: ["Автоматический капучинатор", "15 бар", "Керамические жернова", "Цветной дисплей"],
       results: {
         views: "+250%",
@@ -112,7 +112,12 @@ export default function Examples() {
       rating: 4.7,
       reviews: 1876,
       image: "https://i.pinimg.com/736x/9b/35/3c/9b353c84f8f55ab6dd5d9d6fe4437a8c.jpg",
-      features: ["Активное шумоподавление", "Spatial Audio", "MagSafe зарядка", "30 часов работы"],
+      features: [
+        "Активное шумоподавление",
+        "Spatial Audio",
+        "MagSafe зарядка",
+        "30 часов работы"
+      ],
       results: {
         views: "+290%",
         conversion: "+90%",
@@ -136,7 +141,8 @@ export default function Examples() {
             <span className="gradient-text">работ</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Посмотрите на результаты наших клиентов и убедитесь в эффективности наших карточек
+            Посмотрите на результаты наших клиентов и убедитесь в эффективности наших
+            карточек
           </p>
         </motion.div>
 
@@ -163,7 +169,7 @@ export default function Examples() {
                   {example.category}
                 </div>
               </div>
-              
+
               <div className="p-6">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center space-x-2">
@@ -173,30 +179,41 @@ export default function Examples() {
                   </div>
                   <span className="text-blue-400 font-semibold">{example.price}</span>
                 </div>
-                
-                <h3 className="font-semibold text-white mb-3 line-clamp-2">{example.title}</h3>
-                
+
+                <h3 className="font-semibold text-white mb-3 line-clamp-2">
+                  {example.title}
+                </h3>
+
                 <ul className="space-y-1 mb-4">
                   {example.features.slice(0, 3).map((feature, featureIndex) => (
-                    <li key={featureIndex} className="text-gray-400 text-sm flex items-center">
+                    <li
+                      key={featureIndex}
+                      className="text-gray-400 text-sm flex items-center"
+                    >
                       <div className="w-1 h-1 bg-blue-400 rounded-full mr-2" />
                       {feature}
                     </li>
                   ))}
                 </ul>
-                
+
                 <div className="border-t border-gray-700 pt-4">
                   <div className="grid grid-cols-3 gap-4 text-center">
                     <div>
-                      <div className="text-green-400 font-semibold text-sm">{example.results.views}</div>
-                      <div className="text-gray-500 text-xs">просмотры</div>
+                      <div className="text-green-400 font-semibold text-sm">
+                        {example.results.views}
+                      </div>
+                        <div className="text-gray-500 text-xs">просмотры</div>
                     </div>
                     <div>
-                      <div className="text-blue-400 font-semibold text-sm">{example.results.conversion}</div>
+                      <div className="text-blue-400 font-semibold text-sm">
+                        {example.results.conversion}
+                      </div>
                       <div className="text-gray-500 text-xs">конверсия</div>
                     </div>
                     <div>
-                      <div className="text-purple-400 font-semibold text-sm">{example.results.position}</div>
+                      <div className="text-purple-400 font-semibold text-sm">
+                        {example.results.position}
+                      </div>
                       <div className="text-gray-500 text-xs">позиция</div>
                     </div>
                   </div>
@@ -215,12 +232,15 @@ export default function Examples() {
           <p className="text-gray-300 mb-6">
             Готовы получить такие же результаты для своих товаров?
           </p>
-  <Link href="/create-card">
-  <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-    <ExternalLink className="w-5 h-5 mr-2" />
-        Создать карточкучку
-  </Button>
-</Link>
+          <Link href="/create-card">
+            <Button
+              size="lg"
+              className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            >
+              <ExternalLink className="w-5 h-5 mr-2" />
+              Создать карточку
+            </Button>
+          </Link>
         </motion.div>
       </div>
     </section>
