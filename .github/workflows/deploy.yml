@@ -30,7 +30,6 @@ jobs:
           cd app
           tar -czf ../app.tgz .next public next.config.js package.json package-lock.json
 
-      # Удаляем старый архив на сервере (опционально)
       - name: Remove previous app.tgz on remote
         uses: appleboy/ssh-action@master
         with:
@@ -41,7 +40,6 @@ jobs:
           script: |
             rm -f /var/www/u3175586/data/www/upak.space/app.tgz
 
-      # Копируем архив на сервер
       - name: Upload to Reg.ru via SFTP
         uses: appleboy/scp-action@master
         with:
@@ -52,7 +50,6 @@ jobs:
           source: app.tgz
           target: /var/www/u3175586/data/www/upak.space/app.tgz
 
-      # Разархивируем build на сервере
       - name: Extract archive on remote
         uses: appleboy/ssh-action@master
         with:
