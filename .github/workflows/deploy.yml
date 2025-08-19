@@ -27,6 +27,7 @@ jobs:
           port: ${{ env.FTP_PORT }}
           username: ${{ env.FTP_USERNAME }}
           password: ${{ env.FTP_PASSWORD }}
-          local_path: ./out/*
+          local_path: ./out
           remote_path: ${{ env.FTP_TARGET_DIR }}
           sftp_only: true
+          remove_existing: true
