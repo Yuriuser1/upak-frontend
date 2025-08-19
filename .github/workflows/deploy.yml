@@ -1,62 +1,32 @@
-name: Deploy to Reg.ru
+name: Deploy Frontend
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      FTP_SERVER: ${{ vars.FTP_SERVER }}
+      FTP_PORT: ${{ vars.FTP_PORT }}
+      FTP_USERNAME: ${{ vars.FTP_USERNAME }}
+      FTP_PASSWORD: ${{ vars.FTP_PASSWORD }}
+      FTP_TARGET_DIR: ${{ vars.FTP_TARGET_DIR }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
-        working-directory: ./app
-
-      - name: Build project
-        run: npm run build
-        working-directory: ./app
-
-      - name: Archive build files
-        run: |
-          cd app
-          tar -czf ../app.tgz .next public next.config.js package.json package-lock.json
-
-      - name: Remove previous app.tgz on remote
-        uses: appleboy/ssh-action@master
+          node-version: 20
+      - run: npm install
+      - run: NEXT_PUBLIC_API_BASE=https://upak.space/ npm run build
+      - name: Upload via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          host: ${{ secrets.REG_HOST }}
-          username: ${{ secrets.REG_USER }}
-          password: ${{ secrets.REG_PASSWORD }}
-          port: 22
-          script: |
-            rm -f /var/www/u3175586/data/www/upak.space/app.tgz
-
-      - name: Upload to Reg.ru via SFTP
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.REG_HOST }}
-          username: ${{ secrets.REG_USER }}
-          password: ${{ secrets.REG_PASSWORD }}
-          port: 22
-          source: app.tgz
-          target: /var/www/u3175586/data/www/upak.space/app.tgz
-
-      - name: Extract archive on remote
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.REG_HOST }}
-          username: ${{ secrets.REG_USER }}
-          password: ${{ secrets.REG_PASSWORD }}
-          port: 22
-          script: |
-            cd /var/www/u3175586/data/www/upak.space
-            tar -xzf app.tgz
+          server: ${{ env.FTP_SERVER }}
+          port: ${{ env.FTP_PORT }}
+          username: ${{ env.FTP_USERNAME }}
+          password: ${{ env.FTP_PASSWORD }}
+          local_path: ./out/*
+          remote_path: ${{ env.FTP_TARGET_DIR }}
+          sftp_only: true
