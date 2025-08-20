@@ -1,0 +1,110 @@
+
+# =================================================================
+# UPAK Frontend - Development Environment
+# =================================================================
+version: '3.8'
+
+services:
+  # Next.js приложение
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:password@db:5432/upak_dev
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=dev-secret-key
+    depends_on:
+      - db
+      - redis
+    networks:
+      - upak-network
+    restart: unless-stopped
+
+  # PostgreSQL база данных
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: upak_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - upak-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis для кеширования
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - upak-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Prisma Studio для управления БД
+  prisma-studio:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: npx prisma studio --hostname 0.0.0.0
+    ports:
+      - "5555:5555"
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/upak_dev
+    depends_on:
+      - db
+    networks:
+      - upak-network
+    profiles:
+      - tools
+
+  # Nginx для reverse proxy (опционально)
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+    networks:
+      - upak-network
+    profiles:
+      - nginx
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  upak-network:
+    driver: bridge
