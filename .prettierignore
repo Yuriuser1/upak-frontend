@@ -1,0 +1,46 @@
+
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+out/
+build/
+dist/
+
+# Generated files
+coverage/
+.nyc_output/
+
+# Logs
+*.log
+
+# Environment files
+.env*
+
+# Package manager files
+yarn.lock
+package-lock.json
+
+# Git
+.git/
+
+# Cache
+.cache/
+.eslintcache
+.prettiercache
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+
+# Database
+*.db
+*.sqlite
+
+# Prisma
+prisma/migrations/
