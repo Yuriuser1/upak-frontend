@@ -1,0 +1,13 @@
+
+{
+  "moderate": true,
+  "high": true,
+  "critical": true,
+  "allowlist": [],
+  "skip-dev": true,
+  "package-manager": "yarn",
+  "output-format": "json",
+  "report": {
+    "summary": true
+  }
+}
